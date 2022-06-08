@@ -39,3 +39,7 @@ export type ActionType =
   | GetTodosSuccesstActionType
   | GetTodosFailuretActionType
   | ChangeTodoActionType;
+
+  // export interface IgetTodosThunk {
+  //   () => (dispatch: any) => void
+  // }

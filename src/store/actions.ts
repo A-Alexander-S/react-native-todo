@@ -22,6 +22,7 @@ export const getTodosFailureAction = (e: any) => ({
 });
 
 export const getTodosThunk = () => (dispatch: any) => {
+  dispatch(getTodosRequestAction());
   fetch(TODOS_URL)
     .then<TodoItemType[]>(res => res.json())
     .then(result => {
@@ -29,19 +30,17 @@ export const getTodosThunk = () => (dispatch: any) => {
         acc[el.id] = el;
         return acc;
       }, {});
+
       dispatch(getTodosSuccessAction(todos));
     })
     .catch(e => {
       console.warn(e);
       dispatch(getTodosFailureAction(e));
     });
+  // console.log(" getTodosThunk = () => (dispatch: any) =>")
 }
 
 export const changeTodoAction = (newTodo: TodoItemType) => ({
   type: CHANGE_TODO,
   payload: newTodo
 });
-
-// export const changeTodoThunk = (newTodo: TodoItemType) => (dispatch: any) => {
-//   dispatch(changeTodo(newTodo));
-// }

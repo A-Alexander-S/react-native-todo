@@ -34,10 +34,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <SafeAreaView style={backgroundStyle}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <TodoList />
-        </SafeAreaView>
+        {/* <SafeAreaView style={backgroundStyle}> */}
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <Navigation />
+        {/* </SafeAreaView> */}
       </PersistGate>
     </Provider>
   );
