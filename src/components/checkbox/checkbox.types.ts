@@ -1,3 +1,4 @@
 export type CheckboxPropsType = {
-  checked: boolean
+  checked: boolean,
+  onPress: () => void
 }

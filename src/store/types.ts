@@ -1,8 +1,12 @@
 import { TodoItemType } from "../screens/TodoList/TodoList.types"
 import { FETCH_STATUSES } from "../utils/constants"
-import { CHANGE_TODO, GET_TODOS_REQUEST } from "./actions"
-import { GET_TODOS_SUCCESS } from "./actions"
-import { GET_TODOS_FAILURE } from "./actions"
+import {
+  GET_TODOS_REQUEST,
+  GET_TODOS_SUCCESS,
+  GET_TODOS_FAILURE,
+  CHANGE_TODO,
+  DELETE_TODO
+} from "./actions"
 
 export type TodosMapType = {
   [id: string]: TodoItemType
@@ -34,11 +38,17 @@ export type ChangeTodoActionType = {
   payload: TodoItemType
 }
 
+export type DeleteTodoActionType = {
+  type: typeof DELETE_TODO,
+  payload: number
+}
+
 export type ActionType =
   GetTodosRequestActionType
   | GetTodosSuccesstActionType
   | GetTodosFailuretActionType
-  | ChangeTodoActionType;
+  | ChangeTodoActionType
+  | DeleteTodoActionType;
 
   // export interface IgetTodosThunk {
   //   () => (dispatch: any) => void
