@@ -20,7 +20,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import { Navigation } from './src/components/navigation/Navigation';
+import { Navigation } from './src/navigation/Navigation';
 import { TodoList } from './src/screens/TodoList/TodoList';
 import { persistor, store } from './src/store';
 

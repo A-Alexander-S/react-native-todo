@@ -5,5 +5,8 @@ export const styles = StyleSheet.create({
     // height: '100%',
     backgroundColor: 'white',
     padding: 25
+  },
+  container: {
+    paddingBottom: 100
   }
 });

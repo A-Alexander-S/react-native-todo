@@ -1,6 +1,7 @@
 import { FETCH_STATUSES } from "../utils/constants";
 import {
   CHANGE_TODO,
+  DELETE_TODO,
   GET_TODOS_FAILURE,
   GET_TODOS_REQUEST,
   GET_TODOS_SUCCESS
@@ -8,6 +9,7 @@ import {
 import {
   ActionType,
   ChangeTodoActionType,
+  DeleteTodoActionType,
   TodosStateType
 } from "./types";
 
@@ -46,6 +48,15 @@ const todosReducer = (state = initialState, action: ActionType) => {
           ...state.todos,
           [typeAction.payload.id]: typeAction.payload
         }
+      }
+    }
+    case DELETE_TODO: {
+      const typeAction = action as DeleteTodoActionType;
+      const todos = { ...state.todos };
+      delete todos[typeAction.payload];
+      return {
+        ...state,
+        todos
       }
     }
     default:
