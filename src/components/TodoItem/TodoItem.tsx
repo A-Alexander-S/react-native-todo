@@ -5,8 +5,12 @@ import { styles } from "./TodoItem.styles";
 import { Checkbox } from "../checkbox/checkbox";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-export const TodoItem = ({ todo, i, onComplete, onDelete }: TodoItemPropsType) => {
+export const TodoItem = ({ todo, i, onComplete, onDelete, onPress }: TodoItemPropsType) => {
   const handlePress = () => {
+    onPress(todo.id);
+  };
+
+  const handleComplete = () => {
     onComplete(todo.id);
   };
 
@@ -16,7 +20,7 @@ export const TodoItem = ({ todo, i, onComplete, onDelete }: TodoItemPropsType) =
   return (
     <View style={styles.row}>
       <TouchableOpacity onPress={handlePress} style={styles.root}>
-        <Checkbox checked={todo.completed} onPress={handlePress} />
+        <Checkbox checked={todo.completed} onPress={handleComplete} />
         <Text style={styles.todoText}>
           {i + 1}: {todo.title}
         </Text>

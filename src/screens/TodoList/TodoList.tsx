@@ -15,6 +15,8 @@ import {
 } from 'react-redux';
 import { TextField } from '../../components/TextField/TextField';
 import { TodoItem } from '../../components/TodoItem/TodoItem';
+import { TodoItemPropsType } from '../../components/TodoItem/TodoItem.types';
+import { Navigation } from '../../navigation/Navigation';
 import {
   changeTodoAction,
   deleteTodoAction,
@@ -24,9 +26,9 @@ import { selectTodos } from '../../store/selectors';
 import { selectStatus } from '../../store/selectors';
 import { FETCH_STATUSES } from '../../utils/constants';
 import { styles } from './TodoList.styles';
-import { TodoItemType } from './TodoList.types';
+import { TodoItemType, TodoListPropsType } from './TodoList.types';
 
-export const TodoList = () => {
+export const TodoList = ({ navigation }: TodoListPropsType) => {
   const todos = useSelector(selectTodos);
   const status = useSelector(selectStatus);
   const dispatch = useDispatch();
@@ -49,7 +51,8 @@ export const TodoList = () => {
     const newTodo = {
       id: Date.now(),
       completed: false,
-      title: text
+      title: text,
+      imgs: []
     }
 
     dispatch(changeTodoAction(newTodo));
@@ -59,11 +62,16 @@ export const TodoList = () => {
     dispatch(deleteTodoAction(id));
   }
 
+  const toDetails = (id: number) => {
+    navigation.navigate('TodoDetails', { todoId: id });
+  }
+
   const renderTodo = ({ item, index }: ListRenderItemInfo<TodoItemType>) => {
     return <TodoItem
       todo={item}
       i={index}
       key={item.id}
+      onPress={toDetails}
       onComplete={handlePressTodo}
       onDelete={handleDeleteTodo} />
   };
