@@ -1,5 +1,8 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  createNavigationContainerRef
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TodoList } from "../screens/TodoList/TodoList";
 import { RootStackParamsType } from "./Navigation.types";
@@ -9,10 +12,12 @@ import { BackButton } from "../components/BackButton/BackButton";
 import { ImgFull } from "../components/ImgFull/ImgFull";
 
 const RootStack = createNativeStackNavigator<RootStackParamsType>();
+export const navRef = createNavigationContainerRef();
+
 const Tab = createBottomTabNavigator();
 
 export const Navigation = () => (
-  <NavigationContainer>
+  <NavigationContainer ref={navRef}>
     <RootStack.Navigator initialRouteName="TodoList">
       <RootStack.Group>
         <RootStack.Screen name="TodoList" component={TodoList} />

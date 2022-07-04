@@ -27,6 +27,12 @@ import { selectStatus } from '../../store/selectors';
 import { FETCH_STATUSES } from '../../utils/constants';
 import { styles } from './TodoList.styles';
 import { TodoItemType, TodoListPropsType } from './TodoList.types';
+import notifee, {
+  AndroidImportance,
+  EventType,
+  TimestampTrigger,
+  TriggerType
+} from '@notifee/react-native'
 
 export const TodoList = ({ navigation }: TodoListPropsType) => {
   const todos = useSelector(selectTodos);
@@ -95,6 +101,79 @@ export const TodoList = ({ navigation }: TodoListPropsType) => {
     dispatch(getTodosThunk());
   }, [dispatch]);
 
+  const isAppOpenedByNotif = async () => {
+    const initNotif = await notifee.getInitialNotification();
+    if (initNotif) {
+      const id = initNotif.notification.data?.id;
+      navigation.navigate('TodoDetails', {
+        todoId: +(id as string)
+      });
+    }
+    await notifee.cancelNotification(initNotif?.notification.id as string);
+    console.log(initNotif);
+  };
+
+  useEffect(() => {
+    isAppOpenedByNotif();
+  }, []);
+
+  useEffect(() => {
+    return notifee.onForegroundEvent(({ type, detail }) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log('User pressed notification', detail.notification);
+          break;
+        case EventType.ACTION_PRESS:
+          console.log(detail.pressAction?.id);
+      }
+    });
+  }, []);
+
+  const sendPush = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      importance: AndroidImportance.HIGH
+    });
+    const trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: Date.now() + 5000
+    };
+
+    await notifee.createTriggerNotification({
+      title: 'Notification title',
+      body: 'Main body content of the notification',
+      android: {
+        channelId,
+        // ongoing: true,
+        importance: AndroidImportance.HIGH,
+        asForegroundService: true,
+        pressAction: {
+          id: 'default'
+        },
+        actions: [
+          {
+            title: 'Actions',
+            icon: 'https://my-cdn.com/icons/snooze.png',
+            pressAction: {
+              id: 'action1'
+            }
+          }
+        ]
+      },
+      data: {
+        id: '1',
+      },
+    }, trigger);
+  }
+
+  const stopService = () => {
+    notifee.stopForegroundService();
+  }
+
   return (
     <>
       {status == FETCH_STATUSES.request && <ActivityIndicator />}
@@ -107,6 +186,12 @@ export const TodoList = ({ navigation }: TodoListPropsType) => {
             onPress={getTodos} />
         </>
       }
+      <Button
+        title="Send push"
+        onPress={sendPush} />
+      <Button
+        title="Stop service"
+        onPress={stopService} />
       <SectionList
         style={styles.root}
         contentContainerStyle={styles.container}
