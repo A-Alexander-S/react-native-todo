@@ -35,7 +35,7 @@ export const getTodosThunk = () => (dispatch: any) => {
     .then<TodoItemType[]>(res => res.json())
     .then(result => {
       const todos = result.reduce<TodosMapType>((acc, el) => { // const todos = result.slice(0, 20).reduce<TodosMapType>((acc, el) => {
-        acc[el.id] = el;
+        acc[el.id] = { ...el, imgs: [] };
         return acc;
       }, {});
 

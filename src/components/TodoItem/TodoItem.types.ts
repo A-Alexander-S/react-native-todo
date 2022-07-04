@@ -5,4 +5,5 @@ export type TodoItemPropsType = {
   i: number,
   onComplete: (id: number) => void,
   onDelete: (id: number) => void
+  onPress: (id: number) => void
 }
