@@ -14,6 +14,7 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import {
   Colors,
@@ -32,14 +33,16 @@ const App = () => {
   };
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        {/* <SafeAreaView style={backgroundStyle}> */}
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Navigation />
-        {/* </SafeAreaView> */}
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          {/* <SafeAreaView style={backgroundStyle}> */}
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <Navigation />
+          {/* </SafeAreaView> */}
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 
