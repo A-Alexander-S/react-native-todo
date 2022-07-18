@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  ScrollView,
   Text,
   Button,
   ActivityIndicator,
@@ -15,8 +14,6 @@ import {
 } from 'react-redux';
 import { TextField } from '../../components/TextField/TextField';
 import { TodoItem } from '../../components/TodoItem/TodoItem';
-import { TodoItemPropsType } from '../../components/TodoItem/TodoItem.types';
-import { Navigation } from '../../navigation/Navigation';
 import {
   changeTodoAction,
   deleteTodoAction,
@@ -32,7 +29,8 @@ import notifee, {
   EventType,
   TimestampTrigger,
   TriggerType
-} from '@notifee/react-native'
+} from '@notifee/react-native';
+// import { GesturedComp } from '../../../GesturedComponent';
 
 export const TodoList = ({ navigation }: TodoListPropsType) => {
   const todos = useSelector(selectTodos);
@@ -186,12 +184,6 @@ export const TodoList = ({ navigation }: TodoListPropsType) => {
             onPress={getTodos} />
         </>
       }
-      <Button
-        title="Send push"
-        onPress={sendPush} />
-      <Button
-        title="Stop service"
-        onPress={stopService} />
       <SectionList
         style={styles.root}
         contentContainerStyle={styles.container}
@@ -204,10 +196,25 @@ export const TodoList = ({ navigation }: TodoListPropsType) => {
         renderItem={renderTodo}
       // keyExtractor={(item: TodoItemType) => item.id + ''}
       />
+      {/* <FlatList
+        data={section.notCompleted}
+        contentContainerStyle={styles.container}
+        style={styles.root}
+        ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
+        renderItem={renderTodo}
+      /> */}
     </>
   );
 }
 
+{/* <GesturedComp />
+      <Button
+        title="Send push"
+        onPress={sendPush} />
+      <Button
+        title="Stop service"
+onPress = { stopService }
+  /> */}
 
 {/* <SectionList
   style={styles.root}
