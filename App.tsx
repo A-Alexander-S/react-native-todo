@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -24,6 +24,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import { Navigation } from './src/navigation/Navigation';
 import { TodoList } from './src/screens/TodoList/TodoList';
 import { persistor, store } from './src/store';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,6 +32,10 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

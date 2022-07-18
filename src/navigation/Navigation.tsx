@@ -5,38 +5,66 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TodoList } from "../screens/TodoList/TodoList";
-import { RootStackParamsType } from "./Navigation.types";
+import {
+  RootStackParamsType,
+  MainStackParamsType,
+  RootTabParamsType
+} from "./Navigation.types";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TodoDetails } from "../screens/TodoDetails/TodoDetails";
 import { BackButton } from "../components/BackButton/BackButton";
 import { ImgFull } from "../components/ImgFull/ImgFull";
+import { Settings } from "../screens/Settings/Settings";
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-const RootStack = createNativeStackNavigator<RootStackParamsType>();
+const MainStack = createNativeStackNavigator<MainStackParamsType>();
+const RootTabs = createBottomTabNavigator<RootTabParamsType>();
 export const navRef = createNavigationContainerRef();
 
 const Tab = createBottomTabNavigator();
 
+const MainStackNavigation = () => {
+  return (<MainStack.Navigator initialRouteName="TodoList">
+    <MainStack.Group>
+      <MainStack.Screen name="TodoList" component={TodoList} />
+      <MainStack.Screen
+        options={({ navigation }) => ({
+          title: 'Details',
+          headerTitleStyle: { fontSize: 25 },
+          headerTitleAlign: 'center',
+          headerTintColor: 'black',
+          headerLeft: () => <BackButton onPress={navigation.goBack} />
+        })}
+        name="TodoDetails"
+        component={TodoDetails}
+      />
+    </MainStack.Group>
+    <MainStack.Group screenOptions={{ presentation: 'containedModal' }}>
+      <MainStack.Screen name="ImgFull" component={ImgFull} />
+    </MainStack.Group>
+  </MainStack.Navigator>)
+}
+
+const RootTabNavigator = () => (
+  <RootTabs.Navigator screenOptions={{
+    tabBarActiveTintColor: 'darkred',
+    tabBarInactiveTintColor: 'grey',
+    tabBarShowLabel: false
+  }}>
+    <RootTabs.Screen
+      name="Main"
+      options={{ headerShown: false, tabBarIcon: props => <Icon name="th-list" {...props} /> }}
+      component={MainStackNavigation} />
+    <RootTabs.Screen
+      name="Settings"
+      options={{ tabBarIcon: props => <Icon name="gear" {...props} /> }}
+      component={Settings} />
+  </RootTabs.Navigator>
+)
+
 export const Navigation = () => (
   <NavigationContainer ref={navRef}>
-    <RootStack.Navigator initialRouteName="TodoList">
-      <RootStack.Group>
-        <RootStack.Screen name="TodoList" component={TodoList} />
-        <RootStack.Screen
-          options={({ navigation }) => ({
-            title: 'Details',
-            headerTitleStyle: { fontSize: 25 },
-            headerTitleAlign: 'center',
-            headerTintColor: 'black',
-            headerLeft: () => <BackButton onPress={navigation.goBack} />
-          })}
-          name="TodoDetails"
-          component={TodoDetails}
-        />
-      </RootStack.Group>
-      <RootStack.Group screenOptions={{ presentation: 'containedModal' }}>
-        <RootStack.Screen name="ImgFull" component={ImgFull} />
-      </RootStack.Group>
-    </RootStack.Navigator>
+    <RootTabNavigator />
   </NavigationContainer>
 );
 
